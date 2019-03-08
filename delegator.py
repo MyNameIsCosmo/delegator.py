@@ -28,6 +28,13 @@ def pid_exists(pid):
         # If we get here it means this UNIX platform *does* have
         # a process with id 0.
         return True
+
+    # Collect pid from zombie processes
+    try:
+        os.wait()
+    except ChildProcessError:
+        pass
+
     try:
         os.kill(pid, 0)
     except OSError as err:
